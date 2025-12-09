@@ -17,7 +17,7 @@ function Playlist({ artistName }) {
         `;
 
         const res = await axios.post(
-          "http://localhost:3000/graphql",
+          "https://music-1-0.onrender.com/graphql",
           {
             query,
             variables: { name: artistName }

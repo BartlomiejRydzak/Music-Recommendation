@@ -15,7 +15,7 @@ function GenreSongs({ genreName }) {
             }
           }
         `;
-        const res = await axios.post("http://localhost:3000/graphql", { query });
+        const res = await axios.post("https://music-1-0.onrender.com/graphql", { query });
         setSongs(res.data.data.genreSongs);
       } catch (err) {
         console.error(err);

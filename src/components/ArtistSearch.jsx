@@ -18,7 +18,7 @@ function ArtistSearch({ artistName, setArtistName }) {
           }
         }
       `;
-      const res = await axios.post("http://localhost:3000/graphql", { query });
+      const res = await axios.post("https://music-1-0.onrender.com/graphql", { query });
       setArtistData(res.data.data.artist);
       setError("");
     } catch (err) {
