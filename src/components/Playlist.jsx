@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { Play } from "lucide-react";
 
 function Playlist({ artistName }) {
   const [playlist, setPlaylist] = useState([]);
@@ -15,35 +15,37 @@ function Playlist({ artistName }) {
             }
           }
         `;
-
-        const res = await axios.post(
-          "https://music-1-0.onrender.com/graphql",
-          {
-            query,
-            variables: { name: artistName }
-          }
-        );
-
-        setPlaylist(res.data.data.playlistFromArtist || []);
-      } catch (err) {
-        console.error(err);
-      }
+        const res = await fetch("http://localhost:3000/graphql", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, variables: { name: artistName } })
+        });
+        const data = await res.json();
+        setPlaylist(data.data.playlistFromArtist || []);
+      } catch (err) { console.error(err); }
     };
-
     fetchPlaylist();
   }, [artistName]);
 
   return (
-    <div className="card" style={{ marginTop: "12px" }}>
-      <h2>Playlist dla: {artistName}</h2>
+    <div className="card">
+      <h2 className="section-title icon-label">
+        <Play style={{ color: "#c084fc" }} /> Playlist: {artistName}
+      </h2>
 
-      <ul>
-        {playlist.map((s, i) => (
-          <li key={i}>
-            {s.title} {s.year ? `(${s.year})` : ""}
-          </li>
-        ))}
-      </ul>
+      {playlist.length > 0 ? (
+        <div>
+          {playlist.map((s, i) => (
+            <div key={i} className="list-item">
+              <span style={{ color: "#c084fc", width: "2rem", fontFamily: "monospace" }}>{i + 1}.</span>
+              <span style={{ color: "#fff", flex: 1 }}>{s.title}</span>
+              {s.year && <span style={{ color: "#c084fc", fontSize: "0.85rem" }}>({s.year})</span>}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p style={{ color: "#c084fc" }}>No songs in playlist</p>
+      )}
     </div>
   );
 }
