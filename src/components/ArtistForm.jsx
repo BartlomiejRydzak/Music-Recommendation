@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import axios from "axios";
 
-const GRAPHQL_URL = "http://localhost:3000/graphql";
+const GRAPHQL_URL = "https://music-1-0.onrender.com/graphql";
 
 function ArtistForm() {
   const [name, setName] = useState("");
